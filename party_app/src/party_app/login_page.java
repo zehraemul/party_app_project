@@ -4,16 +4,21 @@
  */
 package party_app;
 
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
  */
-public class login_page extends javax.swing.JFrame {
-
+public class Login_page extends javax.swing.JFrame {
+    private final String url = "jdbc:postgresql://localhost/postgres";
+    public String sqlUserName = "postgres";
+    public String sqlPassword = "melih";
     /**
      * Creates new form login_page
      */
-    public login_page() {
+    public Login_page() {
         initComponents();
     }
 
@@ -59,11 +64,21 @@ public class login_page extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(250, 222, 135));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jButton1.setText("SIGN IN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(250, 222, 135));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jButton2.setForeground(new java.awt.Color(228, 77, 127));
         jButton2.setText("NEW HERE? JOIN NOW!");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jPasswordField1.setBackground(new java.awt.Color(239, 254, 246));
         jPasswordField1.setText("jPasswordField1");
@@ -149,6 +164,49 @@ public class login_page extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        setVisible(false);
+        User_register frame = new User_register();
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public void loginAction(String userName, String pass){
+        // Admin log in
+        if(userName.equals("Admin") && pass.equals("12345")){
+            setVisible(false);
+            Admin_choose frame = new Admin_choose();
+            frame.setVisible(true);
+        // User log in
+        }else{
+            try{
+                // search database for user
+                String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+                Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setString(1, userName);
+                preparedStatement.setString(2, pass);
+                
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()){
+                    throw new Exception("Başarıyla Giriş Yapıldı");
+                }
+                JOptionPane.showMessageDialog(null, "Kullanıcı Bulunamadı\nKullanıcı Adı ve Şifrenizi Kontrol Edip Tekrar Deneyin", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+                setVisible(false);
+                User_events frame = new User_events();
+                frame.setVisible(true);
+            }
+        }
+    }
+    
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String userName = jTextField1.getText();
+        String password = jPasswordField1.getText();
+        loginAction(userName, password);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -166,20 +224,21 @@ public class login_page extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new login_page().setVisible(true);
+                new Login_page().setVisible(true);
             }
         });
     }

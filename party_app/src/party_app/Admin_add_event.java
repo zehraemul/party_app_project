@@ -8,12 +8,12 @@ package party_app;
  *
  * @author ZEHRABENGÜEMÜL
  */
-public class etkinlik_ekle extends javax.swing.JFrame {
+public class Admin_add_event extends javax.swing.JFrame {
 
     /**
      * Creates new form etkinlik_ekle
      */
-    public etkinlik_ekle() {
+    public Admin_add_event() {
         initComponents();
     }
 
@@ -154,20 +154,21 @@ public class etkinlik_ekle extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(etkinlik_ekle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin_add_event.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(etkinlik_ekle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin_add_event.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(etkinlik_ekle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin_add_event.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(etkinlik_ekle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Admin_add_event.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new etkinlik_ekle().setVisible(true);
+                new Admin_add_event().setVisible(true);
             }
         });
     }
