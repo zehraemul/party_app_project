@@ -143,7 +143,7 @@ public class User_register extends javax.swing.JFrame {
     public boolean checkUser(String userName){
         try{
             // search user in database
-            String sql = "SELECT * FROM users WHERE username = ?";
+            String sql = "SELECT * FROM users WHERE userName = ?";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, userName);
@@ -154,6 +154,7 @@ public class User_register extends javax.swing.JFrame {
             return true;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            jTextField2.setText("");
             return false;
             
         }
@@ -162,7 +163,7 @@ public class User_register extends javax.swing.JFrame {
     public void addUser(String userName, String password) throws SQLException{
         try{
             // add user to database
-            String sql = "INSERT INTO users VALUES (?, ?)";
+            String sql = "INSERT INTO users (userName, password) VALUES (?, ?)";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, userName);
@@ -193,10 +194,6 @@ public class User_register extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı adı daha önceden kullanılmış", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
         }
-    
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -87,6 +87,11 @@ public class Login_page extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(239, 254, 246));
         jButton3.setFont(new java.awt.Font("Jokerman", 0, 12)); // NOI18N
         jButton3.setText("EXIT");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -180,7 +185,7 @@ public class Login_page extends javax.swing.JFrame {
         }else{
             try{
                 // search database for user
-                String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+                String sql = "SELECT * FROM users WHERE userName = ? AND password = ?";
                 Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
                 PreparedStatement preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setString(1, userName);
@@ -206,6 +211,10 @@ public class Login_page extends javax.swing.JFrame {
         String password = jPasswordField1.getText();
         loginAction(userName, password);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
