@@ -15,6 +15,8 @@ public class Party_app {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Login_page frame = new Login_page();
+        frame.setVisible(true);
     }
     
 }
