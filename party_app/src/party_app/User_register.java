@@ -170,7 +170,7 @@ public class User_register extends javax.swing.JFrame {
             preparedStatement.setString(2, password);
             preparedStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Kullanıcı Eklendi", "Hata Mesajı", JOptionPane.INFORMATION_MESSAGE);
-        }catch(HeadlessException e){
+        } catch (HeadlessException e){
             JOptionPane.showMessageDialog(null, "Kullaıcı eklenirken hata oluştu", "Bilgilendirme Mesajı", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -190,7 +190,6 @@ public class User_register extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(User_register.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         } else {
             JOptionPane.showMessageDialog(null, "Kullanıcı adı daha önceden kullanılmış", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
         }
