@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  * @author ZEHRABENGÜEMÜL
  */
 public class User_register extends javax.swing.JFrame {
-    private final String url = "jdbc:postgresql://localhost/postgres";
+    private final String url = "jdbc:postgresql://localhost:5432/postgres [postgres on public]";
     public String sqlUserName = "postgres";
-    public String sqlPassword = "melih";
+    public String sqlPassword = "mysecretpassword";
     /**
      * Creates new form register_page
      */
