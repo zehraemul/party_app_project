@@ -16,8 +16,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Admin_choose extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
-    public String sqlUserName = "postgres";
-    public String sqlPassword = "mysecretpassword";
+    private final String sqlUserName = "postgres";
+    private final String sqlPassword = "mysecretpassword";
 
     /**
      * Creates new form admin_choose
@@ -156,7 +156,7 @@ public class Admin_choose extends javax.swing.JFrame {
         try {
             int selectedIndex = jTable1.getSelectedRow();
             if (selectedIndex == -1) {
-                throw new Exception("Tablodan Bir Alıştırma Seçtiğinizden Emin Olun!");
+                throw new Exception("Tablodan bir alıştırma seçtiğinizden emin olun!");
             }
             int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
             String sql = "DELETE FROM events WHERE eventID = ?";

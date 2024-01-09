@@ -13,8 +13,13 @@ import java.sql.*;
  */
 public class Login_page extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
-    public String sqlUserName = "postgres";
-    public String sqlPassword = "mysecretpassword";
+    private final String sqlUserName = "postgres";
+    private final String sqlPassword = "mysecretpassword";
+    private static int userID;
+
+    public static int getUserID() {
+        return userID;
+    }
     /**
      * Creates new form login_page
      */
@@ -189,7 +194,7 @@ public class Login_page extends javax.swing.JFrame {
         }else{
             try{
                 // search database for user
-                String sql = "SELECT * FROM users WHERE userName = ? AND password = ?";
+                String sql = "SELECT userID FROM users WHERE userName = ? AND password = ?";
                 Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
                 PreparedStatement preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setString(1, userName);
@@ -197,6 +202,7 @@ public class Login_page extends javax.swing.JFrame {
                 
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()){
+                    userID = resultSet.getInt("userID");
                     throw new Exception("Başarıyla Giriş Yapıldı");
                 }
                 JOptionPane.showMessageDialog(null, "Kullanıcı Bulunamadı\nKullanıcı Adı ve Şifrenizi Kontrol Edip Tekrar Deneyin", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);

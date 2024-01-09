@@ -9,6 +9,9 @@ package party_app;
  * @author ZEHRABENGÜEMÜL
  */
 public class User_buy_extras extends javax.swing.JFrame {
+    private final String url = "jdbc:postgresql://localhost/postgres";
+    private final String sqlUserName = "postgres";
+    private final String sqlPassword = "mysecretpassword";
 
     /**
      * Creates new form ek_urun_satin_al

@@ -4,11 +4,20 @@
  */
 package party_app;
 
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
  */
 public class User_events extends javax.swing.JFrame {
+    private final String url = "jdbc:postgresql://localhost/postgres";
+    private final String sqlUserName = "postgres";
+    private final String sqlPassword = "mysecretpassword";
 
     /**
      * Creates new form etkinlik_goruntule_customer
@@ -39,23 +48,41 @@ public class User_events extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Name", "Type", "Address", "Price", "Season"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setBackground(new java.awt.Color(255, 204, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jButton1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20), new java.awt.Color(102, 0, 51))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 204, 255));
         jButton2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "To Filter", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20), new java.awt.Color(102, 0, 51))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -108,6 +135,59 @@ public class User_events extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            int selectedIndex = jTable1.getSelectedRow();
+            if (selectedIndex == -1) {
+                throw new Exception("Tablodan bir etkinlik seçtiğinizden emin olun!");
+            }
+            int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            int userID = Login_page.getUserID();
+            String sql = "INSERT INTO offers (oUserID, oEventID) VALUES (?, ?)";
+            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, eventId);
+            preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Teklif başarı ile eklendi", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+            sepet frame = new sepet();
+            frame.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        setVisible(false);
+        User_filter_events frame = new User_filter_events();
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+    private void displayEvents() throws SQLException {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1 || column == 4;
+            }
+        };
+        try (Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("SELECT * FROM displayEvents")) {
+
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String name = rs.getString("Name");
+                String type = rs.getString("Type");
+                String address = rs.getString("Address");
+                int price = rs.getInt("Price");
+                String season = rs.getString("Season");
+                model.addRow(new Object[]{id, name, type, address, price, season});
+            }
+            jTable1.setModel(model);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Tablo Listelenirken Bir Hata Oluştu", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -139,7 +219,13 @@ public class User_events extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new User_events().setVisible(true);
+                User_events frame = new User_events();
+                frame.setVisible(true);
+                try {
+                    frame.displayEvents();
+                } catch (SQLException ex) {
+                    Logger.getLogger(User_events.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

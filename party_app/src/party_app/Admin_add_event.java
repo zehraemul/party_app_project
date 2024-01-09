@@ -16,8 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class Admin_add_event extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
-    public String sqlUserName = "postgres";
-    public String sqlPassword = "mysecretpassword";
+    private final String sqlUserName = "postgres";
+    private final String sqlPassword = "mysecretpassword";
     /**
      * Creates new form etkinlik_ekle
      */
