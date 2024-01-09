@@ -58,7 +58,7 @@ public class Admin_add_event extends javax.swing.JFrame {
 
         jLabel3.setText("konum sec");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ev (Taksim)", "Ev (Besiktas)", "Yat", "Tekne", "Restoran (Bebek)", "Restoran (Sariyer)", "Restoran (Uskudar)", "Otel (Buyukada)", "Otel (Aksaray)", "Acik Alan (Beykoz)", "Acik Alan (Maltepe)" }));
 
         jButton1.setText("onayla");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -69,11 +69,8 @@ public class Admin_add_event extends javax.swing.JFrame {
 
         jLabel4.setText("Ücret");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yilbasi Kutlamasi", "Dogum Gunu", "Dugun", "Kina", "Bekarliga Veda", "Baby Shower", "Ramazan Etkinligi", "Acilis Daveti", "Konser", "Lansman Organizasyonu", "Mezuniyet", "Sirket Yemegi" }));
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField1");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -82,7 +79,6 @@ public class Admin_add_event extends javax.swing.JFrame {
 
         jLabel5.setText("organizasyon ismi");
 
-        jTextField3.setText("jTextField1");
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -91,7 +87,7 @@ public class Admin_add_event extends javax.swing.JFrame {
 
         jLabel8.setText("donem sec");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ilkbahar", "Yaz", "Sonbahar", "Kis" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -114,19 +110,20 @@ public class Admin_add_event extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox3, 0, 1, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                        .addGap(1, 1, 1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(72, 72, 72)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(298, Short.MAX_VALUE))
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField3)))
+                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,16 +213,32 @@ public class Admin_add_event extends javax.swing.JFrame {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String eventName = jTextField1.getText();
-        int eventQuota = Integer.parseInt(jTextField2.getText());
-        int eventPrice = Integer.parseInt(jTextField3.getText());
-        int eventAddress = jComboBox1.getSelectedIndex();
-        int eventType = jComboBox3.getSelectedIndex();
-        int eventSeason = jComboBox2.getSelectedIndex();
-        try {
-            addEvent(eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason);
-        } catch (SQLException ex) {
-            Logger.getLogger(Admin_add_event.class.getName()).log(Level.SEVERE, null, ex);
+        boolean flag = false;
+        try{
+            if (jTextField1.getText().trim().isEmpty() || jTextField2.getText().trim().isEmpty() || jTextField3.getText().trim().isEmpty()) {
+                throw new Exception("Tüm boşlukları doldurduğunuzdan emin olun!");
+            }
+            if (Integer.parseInt(jTextField2.getText()) < 1 || Integer.parseInt(jTextField3.getText()) < 1) {
+                throw new Exception("Sayısal değerler girmeye dikkat edin!");
+            }
+        } catch (Exception ex) {
+            flag = false;
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+        if (flag) {
+            String eventName = jTextField1.getText();
+            int eventQuota = Integer.parseInt(jTextField2.getText());
+            int eventPrice = Integer.parseInt(jTextField3.getText());
+            int eventAddress = jComboBox1.getSelectedIndex();
+            int eventType = jComboBox3.getSelectedIndex();
+            int eventSeason = jComboBox2.getSelectedIndex();
+            jTextField2.setText("");
+            jTextField3.setText("");
+            try {
+                addEvent(eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason);
+            } catch (SQLException ex) {
+                Logger.getLogger(Admin_add_event.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

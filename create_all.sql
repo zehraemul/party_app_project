@@ -222,43 +222,17 @@ INSERT INTO extras ( extraname,extraprice, extranumberofpieces) VALUES
 select * from extras;
 --id yok
 INSERT INTO offers (ouserid, oeventid,oextraid) VALUES
-(2, 13 , 2 ),
-(3, 14, 3),
-(4, 15, 4),
-(5, 16, 5),
-(6, 17, 6),
-(7, 18, 7),
-(8, 19, 8),
-(9, 20, 9),
-(10, 21, 10),
-(11, 22, 11),
-(2, 23, 12);
+(2, 1 , 2 ),
+(3, 2, 3),
+(4, 3, 4),
+(5, 5, 5),
+(6, 8, 6),
+(7, 9, 7),
+(8, 3, 8),
+(9, 7, 9),
+(10, 10, 10),
+(1, 4, 8),
+(2, 4, 1);
 
 select * from offers;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		

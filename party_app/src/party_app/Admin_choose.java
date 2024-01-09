@@ -60,6 +60,11 @@ public class Admin_choose extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("etkinlik ekle");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("etkinlik sil");
 
@@ -133,6 +138,13 @@ public class Admin_choose extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        setVisible(false);
+        Admin_add_event frame = new Admin_add_event();
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+    
     private void displayEvents() throws SQLException {
         DefaultTableModel model = new DefaultTableModel(new String[]{"Name", "Type", "Address", "Price", "Season"}, 0);
 
@@ -148,6 +160,7 @@ public class Admin_choose extends javax.swing.JFrame {
                 String season = rs.getString("Season");
                 model.addRow(new Object[]{name, type, address, price, season});
             }
+            jTable1.setModel(model);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Tablo Listelenirken Bir Hata Oluştu", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
         }
