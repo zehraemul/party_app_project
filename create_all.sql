@@ -64,14 +64,14 @@ CREATE TABLE extras (
 CREATE TABLE offers (
 	offerID INT2 DEFAULT nextval('offer_sequence') PRIMARY KEY,
     oUserID INT2 NOT NULL,
-	oEventID INT2,
+	oEventID INT2 NOT NULL,
 	oExtraID INT2,
 	CONSTRAINT fk_user
 		FOREIGN KEY (oUserID)
 			REFERENCES users (userID)
 			ON DELETE CASCADE,
 	CONSTRAINT fk_event
-		FOREIGN KEY (oEventID)
+		FOREIGN KEY (oEventID) 
 			REFERENCES events (eventID)
 			ON DELETE CASCADE,
 	CONSTRAINT fk_extra
@@ -79,6 +79,10 @@ CREATE TABLE offers (
 			REFERENCES extras (extraID)
 			ON DELETE CASCADE
 );
+
+
+
+
 
 -- trigger functions
 CREATE FUNCTION user_register_trig_func()
@@ -136,5 +140,125 @@ FROM
     INNER JOIN eventTypes t ON e.eventType = t.typeID;
 
 		
---
+--insert to tables
+--id yok
+INSERT INTO users (userName, password, firstName, lastName, phoneNumber) VALUES
+('melihtuna', 'melih', 'Melih', 'Ipek', '1234567890'),
+('zehraemul', 'zehra', 'Zehra', 'Emul', '9876543210'),
+('omeraskin', 'omer', 'Omer', 'Askin', '5555555555'),
+('ozlemkoc', 'ozlem', 'Ozlem', 'Koc', '4444444444'),
+('aysenazkonan', 'aysenaz', 'Aysenaz', 'Konan', '6666666666'),
+('mudaferkaymak', 'mudafer', 'Mudafer', 'Kaymak', '7777777777'),
+('emiroguz', 'emir', 'Emir', 'Oguz', '8888888888'),
+('fatihakkus', 'fatih', 'Fatih', 'Akkus', '9999999999'),
+('abdullahbelikirik', 'abdullah', 'Abdullah', 'Belikirik', '1111111111'),
+('ezgisevi', 'ezgi', 'Ezgi', 'Sevi', '2222222222'),
+('ibrahimsahin', 'ibrahim', 'Ibrahim', 'Sahin', '3333333333');
+select * from users;
+--id var
+INSERT INTO eventAddresses (addressid,addressname) VALUES
+(1,'Ev1(Taksim)'),
+(2,'Ev2(Besiktas)'),
+(3,'Yat'),
+(4,'Tekne'),
+(5,'Restaurant1(Bebek)'),
+(6,'Restaurant2(Sariyer)'),
+(7,'Restaurant3(Uskudar)'),
+(8,'Hotel1(Buyukada)'),
+(9,'Hotel2(Aksaray)'),
+(10,'Hotel3(Levent)'),
+(11,'Acik Alan1(Beykoz)'),
+(12,'Acik Alan2(Maltepe)');
+
+select * from eventAddresses;
+--id var
+INSERT INTO eventTypes (typeid,typeName) VALUES
+(1,'Yilbasi Kutlamalari'),
+(2,'Dogumgunu'),
+(3,'Dugun'),
+(4,'Kina'),
+(5,'Bekarliga Veda'),
+(6,'Baby Shower'),
+(7,'Ramazan Etkinligi'),
+(8,'Acilis Daveti'),
+(9,'Konser'),
+(10,'Lansman Organizasyonu'),
+(11,'Mezuniyet'),
+(12,'Sirket Yemegi');
+
+select * from eventTypes;
+
+--id yok
+INSERT INTO events (eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason, eventStock) VALUES
+('Event1', 1, 500, 10, 50.00, 'Kis', 20),
+('Event2', 2, 100,4, 15.00, 'Ilkbahar', 15),
+('Event3', 3, 800,11, 300.00, 'Yaz', 25),
+('Event4',4, 400, 9, 75.00, 'Ilkbahar', 15),
+('Event5', 5, 300, 3, 20.00, 'Yaz', 20),
+('Event6', 6, 100,12, 20.00, 'Sonbahar', 25),
+('Event7', 7, 2000, 7, 30.00, 'Ilkbahar', 20),
+('Event8', 8, 600, 4, 40.00, 'Kis', 20),
+('Event9',9, 1200, 12, 100.00, 'Yaz', 15),
+('Event10', 10, 1000, 1, 50.00, 'Kis', 25),
+('Event11', 11, 5000, 3, 40.00, 'Yaz', 10),
+('Event12', 12, 900, 6, 10.00, 'Yaz', 5);
+
+select * from events;
+
+--id yok
+INSERT INTO extras ( extraname,extraprice, extranumberofpieces) VALUES
+('Masa', 2.00, 500),
+('Sandalye', 2.00, 500),
+('Hoporler', 15.00, 50),
+('Cicek', 5.00, 300),
+('Masa Ortusu', 4.00, 100),
+('Fotograf Makinesi', 25.00, 100),
+('Yas Pasta', 5.00, 100),
+('Bardak', 1.00, 800),
+('Tabak', 1.00, 800),
+('Palyaco', 15.00, 400),
+('Dansci', 15.00, 200);
+
+select * from extras;
+--id yok
+INSERT INTO offers (ouserid, oeventid,oextraid) VALUES
+(2, 13 , 2 ),
+(3, 14, 3),
+(4, 15, 4),
+(5, 16, 5),
+(6, 17, 6),
+(7, 18, 7),
+(8, 19, 8),
+(9, 20, 9),
+(10, 21, 10),
+(11, 22, 11),
+(2, 23, 12);
+
+select * from offers;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
