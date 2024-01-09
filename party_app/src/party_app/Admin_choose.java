@@ -42,21 +42,28 @@ public class Admin_choose extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Name", "Type", "Address", "Price"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("etkinlik ekle");
@@ -67,10 +74,18 @@ public class Admin_choose extends javax.swing.JFrame {
         });
 
         jButton4.setText("etkinlik sil");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("etkinlik düzenle");
-
-        jLabel1.setText("jLabel1");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -78,19 +93,13 @@ public class Admin_choose extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5))
-                        .addGap(21, 21, 21))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addGap(21, 21, 21))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,9 +111,7 @@ public class Admin_choose extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(jButton3)
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                        .addGap(66, 66, 66)
                         .addComponent(jButton4)
                         .addGap(47, 47, 47)
                         .addComponent(jButton5)))
@@ -144,21 +151,68 @@ public class Admin_choose extends javax.swing.JFrame {
         Admin_add_event frame = new Admin_add_event();
         frame.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            int selectedIndex = jTable1.getSelectedRow();
+            if (selectedIndex == -1) {
+                throw new Exception("Tablodan Bir Alıştırma Seçtiğinizden Emin Olun!");
+            }
+            int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            String sql = "DELETE FROM events WHERE eventID = ?";
+            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, eventId);
+            preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Etkinlik başarı ile silindi", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            displayEvents();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            int selectedIndex = jTable1.getSelectedRow();
+            if (selectedIndex == -1) {
+                throw new Exception("Tablodan Bir Alıştırma Seçtiğinizden Emin Olun!");
+            }
+            int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            String newName = jTable1.getValueAt(selectedIndex, 1).toString();
+            int newPrice = Integer.parseInt(jTable1.getValueAt(selectedIndex, 4).toString());
+            String sql = "UPDATE events SET eventName = ?, eventPrice = ? WHERE eventID = ?";
+            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, newName);
+            preparedStatement.setInt(2, newPrice);
+            preparedStatement.setInt(3, eventId);
+            preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Etkinlik başarı ile güncellendi", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            displayEvents();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
     
     private void displayEvents() throws SQLException {
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Name", "Type", "Address", "Price", "Season"}, 0);
-
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1 || column == 4;
+            }
+        };
         try (Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery("SELECT * FROM displayEvents")) {
 
             while (rs.next()) {
+                int id = rs.getInt("ID");
                 String name = rs.getString("Name");
                 String type = rs.getString("Type");
                 String address = rs.getString("Address");
                 int price = rs.getInt("Price");
                 String season = rs.getString("Season");
-                model.addRow(new Object[]{name, type, address, price, season});
+                model.addRow(new Object[]{id, name, type, address, price, season});
             }
             jTable1.setModel(model);
         } catch (SQLException ex) {
@@ -211,7 +265,6 @@ public class Admin_choose extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
