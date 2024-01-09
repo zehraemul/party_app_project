@@ -4,7 +4,6 @@
  */
 package party_app;
 
-import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.util.logging.Level;
@@ -52,7 +51,7 @@ public class User_register extends javax.swing.JFrame {
         jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 15))); // NOI18N
 
         jTextField3.setBackground(new java.awt.Color(204, 255, 204));
-        jTextField3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ADDRESS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 15))); // NOI18N
+        jTextField3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PHONE NUMBER", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 15))); // NOI18N
 
         jTextField4.setBackground(new java.awt.Color(204, 255, 204));
         jTextField4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -67,6 +66,11 @@ public class User_register extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jButton2.setText("REGISTER");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -153,42 +157,42 @@ public class User_register extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public boolean checkUser(String userName){
-        try{
-            // search user in database
-            String sql = "SELECT * FROM users WHERE userName = ?";
-            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                throw new Exception("Kullanıcı bulunmaktadır");
-            }
-            return true;
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
-            jTextField2.setText("");
-            return false;
-            
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String userName = jTextField1.getText();
+        String password = jPasswordField1.getText();
+        String firstName = jTextField4.getText();
+        String lastName = jTextField6.getText();
+        String phoneNumber = jTextField3.getText();
+        try {
+            // check user if in database
+            addUser(userName, password, firstName, lastName, phoneNumber);
+        } catch (SQLException ex) {
+            Logger.getLogger(User_register.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public void addUser(String userName, String password) throws SQLException{
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+
+    public void addUser(String userName, String password, String firstName, String lastName, String phoneNumber) throws SQLException{
         try{
             // add user to database
-            String sql = "INSERT INTO users (userName, password) VALUES (?, ?)";
+            String sql = "INSERT INTO users (userName, password, firstName, lastName, phoneNumber) VALUES (?, ?, ?, ?, ?)";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, password);
+            preparedStatement.setString(3, firstName);
+            preparedStatement.setString(4, lastName);
+            preparedStatement.setString(5, phoneNumber);
             preparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Kullanıcı Eklendi", "Hata Mesajı", JOptionPane.INFORMATION_MESSAGE);
-        } catch (HeadlessException e){
-            JOptionPane.showMessageDialog(null, "Kullaıcı eklenirken hata oluştu", "Bilgilendirme Mesajı", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Kullanıcı Eklendi", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+            Login_page frame = new Login_page();
+            frame.setVisible(true);
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e, "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    /**
+        /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {

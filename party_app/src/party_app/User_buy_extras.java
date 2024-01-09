@@ -8,12 +8,12 @@ package party_app;
  *
  * @author ZEHRABENGÜEMÜL
  */
-public class ek_urun_satin_al extends javax.swing.JFrame {
+public class User_buy_extras extends javax.swing.JFrame {
 
     /**
      * Creates new form ek_urun_satin_al
      */
-    public ek_urun_satin_al() {
+    public User_buy_extras() {
         initComponents();
     }
 
@@ -64,7 +64,6 @@ public class ek_urun_satin_al extends javax.swing.JFrame {
         jLabel6.setText("PIECE");
 
         jButton1.setBackground(new java.awt.Color(102, 0, 51));
-        jButton1.setActionCommand("");
         jButton1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Confirm and go to box", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14), new java.awt.Color(255, 204, 204))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,20 +264,21 @@ public class ek_urun_satin_al extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ek_urun_satin_al.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User_buy_extras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ek_urun_satin_al.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User_buy_extras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ek_urun_satin_al.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User_buy_extras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ek_urun_satin_al.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User_buy_extras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ek_urun_satin_al().setVisible(true);
+                new User_buy_extras().setVisible(true);
             }
         });
     }

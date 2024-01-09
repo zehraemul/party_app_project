@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class Admin_add_event extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
     public String sqlUserName = "postgres";
-    public String sqlPassword = "melih";
+    public String sqlPassword = "mysecretpassword";
     /**
      * Creates new form etkinlik_ekle
      */
@@ -196,19 +196,18 @@ public class Admin_add_event extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void addEvent(String eventName, String maxQuota, String price, String eventType, String eventAddress, String sDate, String eDate) throws SQLException {
+    private void addEvent(String eventName, int eventType, int eventQuota, int eventAddress, int eventPrice, int eventSeason) throws SQLException {
         try{
             // add event to database
-            String sql = "INSERT INTO users (title, startdate, enddate, price, maxquota, type, address) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO users (eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason) VALUES (?, ?, ?, ?, ?, ?)";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, eventName);
-            preparedStatement.setString(2, sDate);
-            preparedStatement.setString(3, eDate);
-            preparedStatement.setString(4, price);
-            preparedStatement.setString(5, maxQuota);
-            preparedStatement.setString(6, eventType);
-            preparedStatement.setString(7, eventAddress);
+            preparedStatement.setInt(2, eventType);
+            preparedStatement.setInt(3, eventQuota);
+            preparedStatement.setInt(4, eventAddress);
+            preparedStatement.setInt(5, eventPrice);
+            preparedStatement.setInt(6, eventSeason);
             preparedStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Kullanıcı Eklendi", "Hata Mesajı", JOptionPane.INFORMATION_MESSAGE);
         } catch (HeadlessException e){
@@ -218,14 +217,13 @@ public class Admin_add_event extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String eventName = jTextField1.getText();
-        String maxQuota = jTextField2.getText();
-        String price = jTextField3.getText();
-        String eventType = Integer.toString(jComboBox1.getSelectedIndex());
-        String eventAddress = Integer.toString(jComboBox3.getSelectedIndex());
-        String sDate = jTextField4.getText();
-        String eDate = jTextField5.getText();
+        int eventQuota = Integer.parseInt(jTextField2.getText());
+        int eventPrice = Integer.parseInt(jTextField3.getText());
+        int eventAddress = jComboBox1.getSelectedIndex();
+        int eventType = jComboBox3.getSelectedIndex();
+        int eventSeason = jComboBox2.getSelectedIndex();
         try {
-            addEvent(eventName, maxQuota, price, eventType, eventAddress, sDate, eDate);
+            addEvent(eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason);
         } catch (SQLException ex) {
             Logger.getLogger(Admin_add_event.class.getName()).log(Level.SEVERE, null, ex);
         }

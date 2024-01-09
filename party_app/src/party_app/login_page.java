@@ -14,7 +14,7 @@ import java.sql.*;
 public class Login_page extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
     public String sqlUserName = "postgres";
-    public String sqlPassword = "melih";
+    public String sqlPassword = "mysecretpassword";
     /**
      * Creates new form login_page
      */
@@ -245,6 +245,8 @@ public class Login_page extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login_page.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

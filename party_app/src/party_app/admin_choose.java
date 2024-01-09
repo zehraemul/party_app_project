@@ -4,11 +4,20 @@
  */
 package party_app;
 
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
  */
 public class Admin_choose extends javax.swing.JFrame {
+    private final String url = "jdbc:postgresql://localhost/postgres";
+    public String sqlUserName = "postgres";
+    public String sqlPassword = "mysecretpassword";
 
     /**
      * Creates new form admin_choose
@@ -124,7 +133,25 @@ public class Admin_choose extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void displayEvents() throws SQLException {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Name", "Type", "Address", "Price", "Season"}, 0);
 
+        try (Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("SELECT * FROM displayEvents")) {
+
+            while (rs.next()) {
+                String name = rs.getString("Name");
+                String type = rs.getString("Type");
+                String address = rs.getString("Address");
+                int price = rs.getInt("Price");
+                String season = rs.getString("Season");
+                model.addRow(new Object[]{name, type, address, price, season});
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Tablo Listelenirken Bir Hata Oluştu", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -156,7 +183,13 @@ public class Admin_choose extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin_choose().setVisible(true);
+                Admin_choose frame = new Admin_choose();
+                frame.setVisible(true);
+                try {
+                    frame.displayEvents();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Admin_choose.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
