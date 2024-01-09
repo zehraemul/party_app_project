@@ -82,7 +82,7 @@ public class Login_page extends javax.swing.JFrame {
         jPasswordField1.setBackground(new java.awt.Color(239, 254, 246));
         jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 153)));
 
-        jButton3.setBackground(new java.awt.Color(239, 254, 246));
+        jButton3.setBackground(new java.awt.Color(255, 255, 204));
         jButton3.setFont(new java.awt.Font("Jokerman", 0, 12)); // NOI18N
         jButton3.setText("EXIT");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
