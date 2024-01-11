@@ -4,6 +4,11 @@
  */
 package party_app;
 
+import java.math.BigDecimal;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
@@ -12,14 +17,25 @@ public class User_filtered_events extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
     private final String sqlUserName = "postgres";
     private final String sqlPassword = "mysecretpassword";
-
+    private int eventMaxPrice;
+    private int eventMinQuota;
+    private int eventType;
+    private String eventSeason;
     /**
      * Creates new form filtrelenmis_etkinlik_gor
      */
     public User_filtered_events() {
         initComponents();
+        setVariables();
+        displayEvents();
     }
-
+    
+    private void setVariables() {
+        eventMinQuota = User_filter_events.getEventMinQuota();
+        eventMaxPrice = User_filter_events.getEventMaxPrice();
+        eventType = User_filter_events.getEventType();
+        eventSeason = User_filter_events.getEventSeason();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -110,7 +126,40 @@ public class User_filtered_events extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private void displayEvents() {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season", "Quota"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        try (Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword)) {
+            String sql = "SELECT * FROM fcurs (?::NUMERIC, ?::INT2, ?::INT2, ?::VARCHAR)";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+                preparedStatement.setBigDecimal(1, new BigDecimal(eventMaxPrice));
+                preparedStatement.setInt(2, eventMinQuota);
+                preparedStatement.setInt(3, eventType);
+                preparedStatement.setString(4, eventSeason);
+                try (ResultSet rs = preparedStatement.executeQuery()) {
+                    System.out.println("quot : " + eventMinQuota + " type : " + eventMinQuota + " seas : " + eventSeason + " price : " + eventMaxPrice);
+                    while (rs.next()) {
+                        int id = rs.getInt("eventid");
+                        String name = rs.getString("eventname");
+                        String type = rs.getString("eventtype");
+                        String address = rs.getString("eventaddress");
+                        int price = rs.getInt("eventprice");
+                        int quota = rs.getInt("eventquota");
+                        String season = rs.getString("eventseason");
+                        model.addRow(new Object[]{id, name, type, address, price, season, quota});
+                    }
+                    jTable1.setModel(model);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Tablo Listelenirken Bir Hata Oluştu: " + ex.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */

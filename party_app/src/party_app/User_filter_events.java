@@ -4,6 +4,11 @@
  */
 package party_app;
 
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
@@ -12,12 +17,37 @@ public class User_filter_events extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
     private final String sqlUserName = "postgres";
     private final String sqlPassword = "mysecretpassword";
-
+    private static int eventMaxPrice;
+    private static int eventMinQuota;
+    private static int eventType;
+    private static String eventSeason;
+    
+    public static int getEventMaxPrice() {
+        return eventMaxPrice;
+    }
+    public static int getEventMinQuota() {
+        return eventMinQuota;
+    }
+    public static int getEventType() {
+        return eventType;
+    }
+    public static String getEventSeason() {
+        return eventSeason;
+    }
+    private void setSeason(int index) {
+        eventSeason = switch (index) {
+            case 0 -> "Ilkbahar";
+            case 1 -> "Yaz";
+            case 2 -> "Sonbahar";
+            default -> "Kis";
+        };
+    }
     /**
      * Creates new form filtrele
      */
     public User_filter_events() {
         initComponents();
+        init_combobox();
     }
 
     /**
@@ -46,31 +76,28 @@ public class User_filter_events extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
 
-        jLabel1.setText("PLEASE ENTER THE MAX LIMIT");
+        jLabel1.setText("PLEASE ENTER MAX LIMIT");
         jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20))); // NOI18N
 
-        jLabel2.setText("PLEASE SELECT THE ORGANIZATION TYPE");
+        jLabel2.setText("PLEASE SELECT ORGANIZATION TYPE");
         jLabel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20))); // NOI18N
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel6.setText(" ENTER MINIMUM NUMBER OF QUOTAS");
         jLabel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Quota", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20))); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(102, 0, 51));
         jButton2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "To Filter", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20), new java.awt.Color(255, 204, 204))); // NOI18N
-
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jTextField2.setText("jTextField2");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
+
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
 
         jPanel4.setBackground(new java.awt.Color(102, 0, 51));
         jPanel4.setForeground(new java.awt.Color(0, 204, 204));
@@ -86,11 +113,11 @@ public class User_filter_events extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel3.setText("PLEASE SELECT THE TERM");
+        jLabel3.setText("PLEASE SELECT TERM");
         jLabel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Term", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20))); // NOI18N
 
         jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SUMMER", "WINTER", " " }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SPRING", "SUMMER", "AUTUMN", "WINTER" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -99,11 +126,11 @@ public class User_filter_events extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField1))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -112,11 +139,11 @@ public class User_filter_events extends javax.swing.JFrame {
                         .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField2)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(35, 35, 35))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -173,10 +200,48 @@ public class User_filter_events extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        boolean flag = false;
+        try{
+            if (jTextField1.getText().trim().isEmpty() || jTextField2.getText().trim().isEmpty()) {
+                throw new Exception("Tüm boşlukları doldurduğunuzdan emin olun!");
+            }
+            if (Integer.parseInt(jTextField2.getText()) < 1) {
+                eventMinQuota = 0;
+            }
+            if (Integer.parseInt(jTextField1.getText()) < 1) {
+                eventMaxPrice = 2147483647;
+            }
+            flag = true;
+        } catch (Exception ex) {
+            flag = false;
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+        if (flag) {
+            eventMaxPrice = Integer.parseInt(jTextField1.getText());
+            eventMinQuota = Integer.parseInt(jTextField2.getText());
+            eventType = jComboBox1.getSelectedIndex() + 1;
+            int eventS = jComboBox2.getSelectedIndex();
+            setSeason(eventS);
+            setVisible(false);
+            User_filtered_events frame = new User_filtered_events();
+            frame.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+    private void init_combobox() {
+        try {
+            String sql = "SELECT typeName FROM eventTypes";
+            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                    String name = resultSet.getString("typeName");
+                    jComboBox1.addItem(name);
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(User_filter_events.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */

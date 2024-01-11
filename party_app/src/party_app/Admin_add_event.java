@@ -71,19 +71,7 @@ public class Admin_add_event extends javax.swing.JFrame {
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yilbasi Kutlamasi", "Dogum Gunu", "Dugun", "Kina", "Bekarliga Veda", "Baby Shower", "Ramazan Etkinligi", "Acilis Daveti", "Konser", "Lansman Organizasyonu", "Mezuniyet", "Sirket Yemegi" }));
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
         jLabel5.setText("organizasyon ismi");
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
 
         jLabel8.setText("donem sec");
 
@@ -184,14 +172,6 @@ public class Admin_add_event extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void addEvent(String eventName, int eventType, int eventQuota, int eventAddress, int eventPrice, int eventSeason) throws SQLException {
         try{
