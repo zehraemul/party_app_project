@@ -18,7 +18,12 @@ public class User_events extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
     private final String sqlUserName = "postgres";
     private final String sqlPassword = "mysecretpassword";
+    private static int eventID;
 
+    public static int getEventID() {
+        return eventID;
+    }
+    
     /**
      * Creates new form etkinlik_goruntule_customer
      */

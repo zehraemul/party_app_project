@@ -4,6 +4,17 @@
  */
 package party_app;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import static party_app.Login_page.getUserID;
+import static party_app.User_events.getEventID;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
@@ -50,15 +61,23 @@ public class User_buy_extras extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "ID", "Name", "Price", "Number of Items"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setBackground(new java.awt.Color(102, 0, 0));
@@ -77,25 +96,29 @@ public class User_buy_extras extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(32, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -114,9 +137,61 @@ public class User_buy_extras extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+            try {
+                
+            int selectedIndex = jTable1.getSelectedRow();          
+            if (selectedIndex == -1) {
+                throw new Exception("Tablodan Bir Extra Ürün Seçtiğinizden Emin Olun!");
+            }
+            
+            int extraID = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            int ouserid = getUserID();
+            int oeventid = getEventID();
+            
+            String sql = "UPDATE offers SET oextraid = ? WHERE ouserid = ? AND oeventid = ?";
+            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, extraID);
+            preparedStatement.setInt(2, ouserid);
+            preparedStatement.setInt(3, oeventid);
+            preparedStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Ekstra ürün sepetinize eklendi.", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);    
+            displayEvents();
+            
+            setVisible(false);
+            sepet frame = new sepet();
+            frame.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }    // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+        public void displayEvents() throws SQLException {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Name", "Price", "Number of Items"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        try (Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("SELECT * FROM extras")) {
+
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String name = rs.getString("Name");
+                String prices = rs.getString("Price");
+                String numItems = rs.getString("Number of Items");
+                model.addRow(new Object[]{id, name, prices, numItems});
+            }
+            jTable1.setModel(model);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Tablo Listelenirken Bir Hata Oluştu", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         
@@ -157,6 +232,7 @@ public class User_buy_extras extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new User_buy_extras().setVisible(true);
+
             }
         });
     }
