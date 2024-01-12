@@ -21,6 +21,7 @@ public class User_filtered_events extends javax.swing.JFrame {
     private int eventMinQuota;
     private int eventType;
     private String eventSeason;
+    private int userId;
     /**
      * Creates new form filtrelenmis_etkinlik_gor
      */
@@ -35,6 +36,7 @@ public class User_filtered_events extends javax.swing.JFrame {
         eventMaxPrice = User_filter_events.getEventMaxPrice();
         eventType = User_filter_events.getEventType();
         eventSeason = User_filter_events.getEventSeason();
+        userId = Login_page.getUserID();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +72,11 @@ public class User_filtered_events extends javax.swing.JFrame {
         jButton1.setText("geri don");
 
         jButton2.setText("etkinlik sec/onay");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,6 +133,28 @@ public class User_filtered_events extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            int selectedIndex = jTable1.getSelectedRow();
+            if (selectedIndex == -1) {
+                throw new Exception("Tablodan bir etkinlik seçtiğinizden emin olun!");
+            }
+            int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            String sql = "INSERT INTO offers (oEventID, oUserID) VALUES (?, ?)";
+            Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, eventId);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Teklif başarı ile eklendi", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+            sepet frame = new sepet();
+            frame.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     private void displayEvents() {
         DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season", "Quota"}, 0) {
             @Override

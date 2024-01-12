@@ -156,7 +156,7 @@ public class Admin_choose extends javax.swing.JFrame {
         try {
             int selectedIndex = jTable1.getSelectedRow();
             if (selectedIndex == -1) {
-                throw new Exception("Tablodan bir alıştırma seçtiğinizden emin olun!");
+                throw new Exception("Tablodan bir etkinlik seçtiğinizden emin olun!");
             }
             int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
             String sql = "DELETE FROM events WHERE eventID = ?";

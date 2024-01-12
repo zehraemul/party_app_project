@@ -138,10 +138,48 @@ FROM
     events e
     INNER JOIN eventAddresses a ON e.eventAddress = a.addressID
     INNER JOIN eventTypes t ON e.eventType = t.typeID;
+	
+	
+	
+-- function 
+CREATE TYPE table_for_cursor AS (
+    eventID INT2, 
+    eventName VARCHAR(32), 
+    eventType VARCHAR(32), 
+    eventQuota INT2, 
+    eventAddress VARCHAR(32), 
+    eventPrice NUMERIC(9,2), 
+    eventSeason VARCHAR(32)
+);
 
-		
+CREATE OR REPLACE FUNCTION fcurs(eventMaxPrice NUMERIC, eventMinQuota INT2, eventType INT2, eventSeason VARCHAR)
+RETURNS SETOF table_for_cursor AS $$
+DECLARE
+    my_curs CURSOR FOR SELECT e.eventID as ID, e.eventName as Name, t.typeName as EType, e.eventQuota as Quota, a.addressName as Address, e.eventPrice as Price, e.eventSeason as Season
+                        FROM events e, eventAddresses a, eventTypes t
+                        WHERE e.eventType = fcurs.eventType 
+                            AND e.eventPrice < fcurs.eventMaxPrice 
+                            AND e.eventQuota > fcurs.eventMinQuota 
+                            AND e.eventSeason = fcurs.eventSeason
+							AND e.eventType = t.typeId
+							AND e.eventAddress = a.addressID;
+    rec table_for_cursor;
+BEGIN
+    OPEN my_curs;
+    LOOP
+        FETCH my_curs INTO rec;
+        EXIT WHEN NOT FOUND;
+        RETURN NEXT rec;
+    END LOOP;
+    CLOSE my_curs;
+END;
+$$ LANGUAGE 'plpgsql';
+
+--SELECT * FROM fcurs(999.00::NUMERIC, 2::INT2, 2::INT2, 'Ilkbahar'::VARCHAR);
+
+
+
 --insert to tables
---id yok
 INSERT INTO users (userName, password, firstName, lastName, phoneNumber) VALUES
 ('melihtuna', 'melih', 'Melih', 'Ipek', '1234567890'),
 ('zehraemul', 'zehra', 'Zehra', 'Emul', '9876543210'),
