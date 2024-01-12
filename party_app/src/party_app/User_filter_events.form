@@ -76,11 +76,14 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jLabel6" pref="265" max="32767" attributes="0"/>
-                                  <Component id="jLabel3" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jTextField2" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jComboBox2" alignment="1" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="jLabel6" pref="265" max="32767" attributes="0"/>
+                                      <Component id="jLabel3" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="jTextField2" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="jComboBox2" alignment="1" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
@@ -104,7 +107,9 @@
                               <Component id="jLabel3" min="-2" pref="71" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="108" max="32767" attributes="0"/>
+                              <EmptySpace pref="55" max="32767" attributes="0"/>
+                              <Component id="jButton1" min="-2" pref="35" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jButton2" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           </Group>
@@ -256,6 +261,17 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="66" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="cc" green="cc" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="BACK"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
