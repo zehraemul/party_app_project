@@ -22,9 +22,15 @@ public class User_filtered_events extends javax.swing.JFrame {
     private int eventType;
     private String eventSeason;
     private int userId;
+    private static int eventId  = -1;
     /**
      * Creates new form filtrelenmis_etkinlik_gor
+     * @return 
      */
+    
+    public static int getEventID() {
+        return eventId;
+    }
     public User_filtered_events() {
         initComponents();
         setVariables();
@@ -160,7 +166,7 @@ public class User_filtered_events extends javax.swing.JFrame {
             if (selectedIndex == -1) {
                 throw new Exception("Tablodan bir etkinlik seçtiğinizden emin olun!");
             }
-            int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
             String sql = "INSERT INTO offers (oEventID, oUserID) VALUES (?, ?)";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
             PreparedStatement preparedStatement = con.prepareStatement(sql);

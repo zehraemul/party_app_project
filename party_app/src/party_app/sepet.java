@@ -4,6 +4,9 @@
  */
 package party_app;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -143,6 +146,11 @@ public class sepet extends javax.swing.JFrame {
         setVisible(false);
         User_buy_extras frame = new User_buy_extras();
         frame.setVisible(true);
+        try {
+            frame.displayEvents();
+        } catch (SQLException ex) {
+            Logger.getLogger(sepet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

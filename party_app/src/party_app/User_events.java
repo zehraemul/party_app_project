@@ -18,10 +18,14 @@ public class User_events extends javax.swing.JFrame {
     private final String url = "jdbc:postgresql://localhost/postgres";
     private final String sqlUserName = "postgres";
     private final String sqlPassword = "mysecretpassword";
-    private static int eventID;
+    private static int eventId = -1;
 
+    /**
+     *
+     * @return
+     */
     public static int getEventID() {
-        return eventID;
+        return eventId;
     }
     
     /**
@@ -160,7 +164,7 @@ public class User_events extends javax.swing.JFrame {
             if (selectedIndex == -1) {
                 throw new Exception("Tablodan bir etkinlik seçtiğinizden emin olun!");
             }
-            int eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
+            eventId = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
             int userID = Login_page.getUserID();
             String sql = "INSERT INTO offers (oUserID, oEventID) VALUES (?, ?)";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);

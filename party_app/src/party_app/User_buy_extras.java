@@ -137,7 +137,7 @@ public class User_buy_extras extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            try {
+        try {
                 
             int selectedIndex = jTable1.getSelectedRow();          
             if (selectedIndex == -1) {
@@ -145,8 +145,15 @@ public class User_buy_extras extends javax.swing.JFrame {
             }
             
             int extraID = Integer.parseInt(jTable1.getValueAt(selectedIndex, 0).toString());
-            int ouserid = getUserID();
-            int oeventid = getEventID();
+            int ouserid = Login_page.getUserID();
+            int oeventid = -1;
+            if (User_events.getEventID() > - 1) {
+                oeventid = User_events.getEventID();
+            } else if (User_filtered_events.getEventID() > - 1) {
+                oeventid = User_filtered_events.getEventID();
+            } else {
+                throw new Exception("Event id bulunamadı");
+            }
             
             String sql = "UPDATE offers SET oextraid = ? WHERE ouserid = ? AND oeventid = ?";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
@@ -156,20 +163,18 @@ public class User_buy_extras extends javax.swing.JFrame {
             preparedStatement.setInt(3, oeventid);
             preparedStatement.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Ekstra ürün sepetinize eklendi.", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);    
-            displayEvents();
-            
+            JOptionPane.showMessageDialog(null, "Ekstra ürün sepetinize eklendi.", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
             setVisible(false);
             sepet frame = new sepet();
             frame.setVisible(true);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
-        }    // TODO add your handling code here:
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-        public void displayEvents() throws SQLException {
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Name", "Price", "Number of Items"}, 0) {
+    public void displayEvents() throws SQLException {
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Price", "Number of Items"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -180,10 +185,10 @@ public class User_buy_extras extends javax.swing.JFrame {
              ResultSet rs = st.executeQuery("SELECT * FROM extras")) {
 
             while (rs.next()) {
-                int id = rs.getInt("ID");
-                String name = rs.getString("Name");
-                String prices = rs.getString("Price");
-                String numItems = rs.getString("Number of Items");
+                int id = rs.getInt("extraID");
+                String name = rs.getString("extraName");
+                int prices = rs.getInt("extraPrice");
+                int numItems = rs.getInt("extraNumberOfPieces");
                 model.addRow(new Object[]{id, name, prices, numItems});
             }
             jTable1.setModel(model);
@@ -232,7 +237,6 @@ public class User_buy_extras extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new User_buy_extras().setVisible(true);
-
             }
         });
     }
