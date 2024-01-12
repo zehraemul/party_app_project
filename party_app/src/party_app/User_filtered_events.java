@@ -38,6 +38,14 @@ public class User_filtered_events extends javax.swing.JFrame {
         eventSeason = User_filter_events.getEventSeason();
         userId = Login_page.getUserID();
     }
+    public void setVariables1() {
+        eventMinQuota = User_filter_events.getEventMinQuota();
+        eventMaxPrice = User_filter_events.getEventMaxPrice();
+        eventType = User_filter_events.getEventType();
+        eventSeason = User_filter_events.getEventSeason();
+        userId = Login_page.getUserID();
+        displayEvents();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,6 +78,11 @@ public class User_filtered_events extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("geri don");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("etkinlik sec/onay");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +168,12 @@ public class User_filtered_events extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        setVisible(false);
+        User_filter_events frame = new User_filter_events();
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
     private void displayEvents() {
         DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season", "Quota"}, 0) {
             @Override

@@ -6,6 +6,8 @@ package party_app;
 
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +21,9 @@ public class Login_page extends javax.swing.JFrame {
 
     public static int getUserID() {
         return userID;
+    }
+    public static void setUserID() {
+        userID = 0;
     }
     /**
      * Creates new form login_page
@@ -184,12 +189,13 @@ public class Login_page extends javax.swing.JFrame {
         frame.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void loginAction(String userName, String pass){
+    public void loginAction(String userName, String pass) throws SQLException{
         // Admin log in
         if(userName.equals("Admin") && pass.equals("12345")){
             setVisible(false);
             Admin_choose frame = new Admin_choose();
             frame.setVisible(true);
+            frame.displayEvents();
         // User log in
         }else{
             try{
@@ -211,6 +217,7 @@ public class Login_page extends javax.swing.JFrame {
                 setVisible(false);
                 User_events frame = new User_events();
                 frame.setVisible(true);
+                frame.displayEvents();
             }
         }
     }
@@ -219,7 +226,11 @@ public class Login_page extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String userName = jTextField1.getText();
         String password = jPasswordField1.getText();
-        loginAction(userName, password);
+        try {
+            loginAction(userName, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_page.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

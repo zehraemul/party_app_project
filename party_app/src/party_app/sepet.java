@@ -4,6 +4,8 @@
  */
 package party_app;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ZEHRABENGÜEMÜL
@@ -36,6 +38,11 @@ public class sepet extends javax.swing.JFrame {
         jLabel1.setText("kullanıcının aldığı teklif ayrıntıları gözükecek");
 
         jButton2.setText("onayla");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("ek ozellik satin al");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -86,8 +93,18 @@ public class sepet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        User_buy_extras frame = new User_buy_extras();
+        frame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Siparişiniz başarı ile oluşturuldu.\n Bizi tercih ettiğniiz için teşekkür ederiz.\n İyi eğlenceler.", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
+        setVisible(false);
+        Login_page frame = new Login_page();
+        frame.setVisible(true);
+        Login_page.setUserID();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

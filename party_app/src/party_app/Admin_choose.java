@@ -194,7 +194,7 @@ public class Admin_choose extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
     
-    private void displayEvents() throws SQLException {
+    public void displayEvents() throws SQLException {
         DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {

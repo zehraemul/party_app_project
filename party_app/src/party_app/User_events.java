@@ -163,11 +163,11 @@ public class User_events extends javax.swing.JFrame {
         User_filter_events frame = new User_filter_events();
         frame.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-    private void displayEvents() throws SQLException {
+    public void displayEvents() throws SQLException {
         DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Type", "Address", "Price", "Season"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1 || column == 4;
+                return false;
             }
         };
         try (Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);

@@ -176,7 +176,7 @@ public class Admin_add_event extends javax.swing.JFrame {
     private void addEvent(String eventName, int eventType, int eventQuota, int eventAddress, int eventPrice, int eventSeason) throws SQLException {
         try{
             // add event to database
-            String sql = "INSERT INTO users (eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO events (eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason) VALUES (?, ?, ?, ?, ?, ?)";
             Connection con = DriverManager.getConnection(url, sqlUserName, sqlPassword);
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, eventName);
@@ -186,9 +186,13 @@ public class Admin_add_event extends javax.swing.JFrame {
             preparedStatement.setInt(5, eventPrice);
             preparedStatement.setInt(6, eventSeason);
             preparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Kullanıcı Eklendi", "Hata Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Etkinlik Eklendi", "Hata Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
+            Admin_choose frame = new Admin_choose();
+            frame.setVisible(true);
+            frame.displayEvents();
         } catch (HeadlessException e){
-            JOptionPane.showMessageDialog(null, "Kullaıcı eklenirken hata oluştu", "Bilgilendirme Mesajı", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Etkinlik eklenirken hata oluştu", "Bilgilendirme Mesajı", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -201,6 +205,7 @@ public class Admin_add_event extends javax.swing.JFrame {
             if (Integer.parseInt(jTextField2.getText()) < 1 || Integer.parseInt(jTextField3.getText()) < 1) {
                 throw new Exception("Sayısal değerler girmeye dikkat edin!");
             }
+            flag = true;
         } catch (Exception ex) {
             flag = false;
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
@@ -215,7 +220,7 @@ public class Admin_add_event extends javax.swing.JFrame {
             jTextField2.setText("");
             jTextField3.setText("");
             try {
-                addEvent(eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason);
+                addEvent(eventName, eventType + 1, eventQuota, eventAddress + 1, eventPrice, eventSeason);
             } catch (SQLException ex) {
                 Logger.getLogger(Admin_add_event.class.getName()).log(Level.SEVERE, null, ex);
             }

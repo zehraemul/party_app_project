@@ -226,6 +226,7 @@ public class User_filter_events extends javax.swing.JFrame {
             setVisible(false);
             User_filtered_events frame = new User_filtered_events();
             frame.setVisible(true);
+            frame.setVariables1();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     private void init_combobox() {
