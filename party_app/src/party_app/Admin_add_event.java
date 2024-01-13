@@ -52,6 +52,7 @@ public class Admin_add_event extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -194,6 +195,7 @@ public class Admin_add_event extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addEvent(String eventName, int eventType, int eventQuota, int eventAddress, int eventPrice, int eventSeason) throws SQLException {
