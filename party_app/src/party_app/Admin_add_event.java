@@ -5,6 +5,7 @@
 package party_app;
 
 import java.awt.HeadlessException;
+import java.lang.Exception;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -198,7 +199,7 @@ public class Admin_add_event extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addEvent(String eventName, int eventType, int eventQuota, int eventAddress, int eventPrice, int eventSeason) throws SQLException {
+    private void addEvent(String eventName, int eventType, int eventQuota, int eventAddress, int eventPrice, String eventSeason) throws SQLException {
         try{
             // add event to database
             String sql = "INSERT INTO events (eventName, eventType, eventQuota, eventAddress, eventPrice, eventSeason) VALUES (?, ?, ?, ?, ?, ?)";
@@ -209,15 +210,15 @@ public class Admin_add_event extends javax.swing.JFrame {
             preparedStatement.setInt(3, eventQuota);
             preparedStatement.setInt(4, eventAddress);
             preparedStatement.setInt(5, eventPrice);
-            preparedStatement.setInt(6, eventSeason);
+            preparedStatement.setString(6, eventSeason);
             preparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Etkinlik Eklendi", "Hata Mesajı", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Etkinlik Eklendi", "Bilgilendirme Mesajı", JOptionPane.INFORMATION_MESSAGE);
             setVisible(false);
             Admin_choose frame = new Admin_choose();
             frame.setVisible(true);
             frame.displayEvents();
         } catch (HeadlessException e){
-            JOptionPane.showMessageDialog(null, "Etkinlik eklenirken hata oluştu", "Bilgilendirme Mesajı", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Etkinlik eklenirken hata oluştu", "Hata Mesajı", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -242,10 +243,26 @@ public class Admin_add_event extends javax.swing.JFrame {
             int eventAddress = jComboBox1.getSelectedIndex();
             int eventType = jComboBox3.getSelectedIndex();
             int eventSeason = jComboBox2.getSelectedIndex();
+            String eventSeasonString = "";
+            if (eventSeason == 0) {
+                eventSeasonString = "Ilkbahar";
+            } else if (eventSeason == 1) {
+                eventSeasonString = "Yaz";
+            } else if (eventSeason == 2) {
+                eventSeasonString = "Sonbahar";
+            } else if (eventSeason == 3) {
+                eventSeasonString = "Kis";
+            } else {
+                try {
+                    throw new Exception("Hatalı dönem seçildi");
+                } catch (Exception ex) {
+                    Logger.getLogger(Admin_add_event.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             jTextField2.setText("");
             jTextField3.setText("");
             try {
-                addEvent(eventName, eventType + 1, eventQuota, eventAddress + 1, eventPrice, eventSeason);
+                addEvent(eventName, eventType + 1, eventQuota, eventAddress + 1, eventPrice, eventSeasonString);
             } catch (SQLException ex) {
                 Logger.getLogger(Admin_add_event.class.getName()).log(Level.SEVERE, null, ex);
             }

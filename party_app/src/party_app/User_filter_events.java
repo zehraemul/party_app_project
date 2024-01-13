@@ -246,11 +246,14 @@ public class User_filter_events extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
         setVisible(false);
         User_events frame = new User_events();
         frame.setVisible(true);
+        try {
+            frame.displayEvents();
+        } catch (SQLException ex) {
+            Logger.getLogger(User_filter_events.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     private void init_combobox() {
         try {
